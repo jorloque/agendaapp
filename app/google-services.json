@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "591213868011",
+    "project_id": "agendaapp-f4fc5",
+    "storage_bucket": "agendaapp-f4fc5.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:591213868011:android:291abba6323a21adf59fae",
+        "android_client_info": {
+          "package_name": "com.lopez_jorge.agendasapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDGjktQQPv24GS0eh0B38EWP1uGzBZl2KY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

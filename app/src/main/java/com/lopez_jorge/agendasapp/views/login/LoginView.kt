@@ -29,11 +29,13 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.lopez_jorge.agendasapp.R
+import com.lopez_jorge.agendasapp.viewModels.LoginViewModel
 
 
 @Composable
-fun LoginView(){
+fun LoginView(navController: NavController, loginVM: LoginViewModel){
     Column (
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
@@ -95,7 +97,9 @@ fun LoginView(){
 
         //Boton de registro
         Button(
-            onClick = { /*TODO*/},
+            onClick = {
+                navController.navigate("Register")
+                      },
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(start = 20.dp, end = 20.dp)) {

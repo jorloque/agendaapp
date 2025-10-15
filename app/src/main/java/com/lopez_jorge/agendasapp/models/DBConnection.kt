@@ -4,7 +4,7 @@ import java.sql.Connection
 import java.sql.DriverManager
 
 object DBConnection {
-    private const val URL = "jdbc:mariadb://db2.cvuekwyckcvn.us-east-1.rds.amazonaws.com:3306/agenda?useSSL=false"
+    private const val URL = "jdbc:mariadb://db.cvmci2wemkun.us-east-1.rds.amazonaws.com/agenda?useSSL=false"
     private const val USER = "admin"
     private const val PASSWORD = "adminadmin"
 

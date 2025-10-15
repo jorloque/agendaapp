@@ -18,6 +18,7 @@ import kotlinx.coroutines.launch
 import android.widget.Toast
 import com.lopez_jorge.agendasapp.R
 import com.lopez_jorge.agendasapp.viewModels.LoginViewModel
+import com.lopez_jorge.agendasapp.utils.SessionManager   // ✅ Importa el SessionManager
 
 @Composable
 fun LoginView(navController: NavController, loginVM: LoginViewModel) {
@@ -27,6 +28,7 @@ fun LoginView(navController: NavController, loginVM: LoginViewModel) {
     var isLoading by remember { mutableStateOf(false) }
     val context = LocalContext.current
     val coroutineScope = rememberCoroutineScope()
+    val sessionManager = remember { SessionManager(context) }  // ✅ Creamos instancia
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -83,14 +85,27 @@ fun LoginView(navController: NavController, loginVM: LoginViewModel) {
                         val success = loginVM.validateUser(email, password)
                         isLoading = false
                         if (success) {
-                            //navController.navigate("Notas")
-                            navController.navigate("Login")
+                            // 👉 AQUI: Guardamos la sesión del usuario
+                            sessionManager.saveSession(email)
+
+                            // Navegamos a Home y eliminamos Login del backstack
+                            navController.navigate("Home") {
+                                popUpTo("Login") { inclusive = true }
+                            }
                         } else {
-                            Toast.makeText(context, "Usuario o contraseña incorrectos", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(
+                                context,
+                                "Usuario o contraseña incorrectos",
+                                Toast.LENGTH_SHORT
+                            ).show()
                         }
                     }
                 } else {
-                    Toast.makeText(context, "Por favor, complete todos los campos", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        context,
+                        "Por favor, complete todos los campos",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             },
             modifier = Modifier
@@ -100,7 +115,6 @@ fun LoginView(navController: NavController, loginVM: LoginViewModel) {
             Text(text = if (isLoading) "Verificando..." else "Ingresar")
         }
 
-        // Botón de registro
         Button(
             onClick = {
                 navController.navigate("Register")

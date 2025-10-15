@@ -1,5 +1,6 @@
 package com.lopez_jorge.agendasapp.views.register
 
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -32,6 +33,7 @@ import androidx.navigation.NavController
 import com.lopez_jorge.agendasapp.R
 import com.lopez_jorge.agendasapp.viewModels.LoginViewModel
 import com.lopez_jorge.agendasapp.viewModels.RegisterViewModel
+import kotlinx.coroutines.launch
 import java.nio.file.WatchEvent
 
 @Composable
@@ -93,11 +95,32 @@ fun RegisterView(navController: NavController, registerVM: RegisterViewModel){
 
         Spacer(modifier = Modifier.height(20.dp))
 
-        Button(onClick = {/*TODO*/},
+        Button(
+            onClick = {
+                kotlinx.coroutines.CoroutineScope(kotlinx.coroutines.Dispatchers.Main).launch {
+                    val success = registerVM.registerUser(username, email, password)
+                    if (success) {
+                        Toast.makeText(
+                            navController.context,
+                            "Usuario registrado correctamente ✅",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        navController.navigate("Login")
+                    } else {
+                        Toast.makeText(
+                            navController.context,
+                            "Error al registrar usuario ❌",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }
+            },
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(start = 30.dp,end= 30.dp)) {
+                .padding(start = 30.dp, end = 30.dp)
+        ) {
             Text(text = "Registrar")
         }
+
     }
 }

@@ -36,7 +36,7 @@ fun Navmanager(
         composable ("Register"){
             RegisterView(navController,registerVM)
         }
-
+        //se modifica esta ruta
         composable ("Home"){
             HomeView(navController,notesVM)
         }

@@ -19,7 +19,7 @@ class LoginViewModel : ViewModel() {
         return withContext(Dispatchers.IO) {
             try {
                 // 🔸 Prueba con HTTP primero para desarrollo
-                val url = URL("http://54.163.48.245/info.php")
+                val url = URL("http://54.236.23.141/info.php")
 
                 val postData = "usuario=${URLEncoder.encode(email, "UTF-8")}" +
                         "&password=${URLEncoder.encode(password, "UTF-8")}"

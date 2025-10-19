@@ -13,7 +13,7 @@ class RegisterViewModel : ViewModel() {
     suspend fun registerUser(username: String, email: String, password: String): Boolean {
         return withContext(Dispatchers.IO) {
 
-            val url = URL("http://54.163.48.245/registro.php")
+            val url = URL("http://54.236.23.141/registro.php")
             val postData = "usuario=${URLEncoder.encode(username, "UTF-8")}" +
                     "&email=${URLEncoder.encode(email, "UTF-8")}" +
                     "&password=${URLEncoder.encode(password, "UTF-8")}"

@@ -18,7 +18,7 @@ class ContactsViewModel : ViewModel() {
     fun saveContact(contact: Contact, onResult: (Boolean) -> Unit) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                val url = URL("http://54.196.197.231/addContact.php")
+                val url = URL("http://54.236.23.141/addContact.php")
                 val conn = url.openConnection() as HttpURLConnection
                 conn.requestMethod = "POST"
                 conn.doOutput = true
@@ -51,33 +51,41 @@ class ContactsViewModel : ViewModel() {
     fun getContacts() {
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                val url = URL("http://54.196.197.231/getContacts.php")
+                val url = URL("http://54.236.23.141/getContacts.php")
                 val conn = url.openConnection() as HttpURLConnection
                 conn.requestMethod = "GET"
                 conn.connectTimeout = 15000
                 conn.readTimeout = 15000
 
-                val responseCode = conn.responseCode
-                if (responseCode == HttpURLConnection.HTTP_OK) {
+                if (conn.responseCode == HttpURLConnection.HTTP_OK) {
                     val response = conn.inputStream.bufferedReader().readText()
-                    val jsonArray = JSONArray(response)
 
-                    // Limpiamos la lista y agregamos lo nuevo
-                    contacts.clear()
+                    val jsonArray = JSONArray(response) // si esto falla, el log anterior lo revelará
+
+                    val tempList = mutableListOf<Contact>()
                     for (i in 0 until jsonArray.length()) {
                         val obj = jsonArray.getJSONObject(i)
-                        val contact = Contact(
-                            name = obj.getString("name"),
-                            email = obj.getString("email"),
-                            address = obj.optString("address"),
-                            phone = obj.optString("phone")
+                        tempList.add(
+                            Contact(
+                                name = obj.getString("name"),
+                                email = obj.getString("email"),
+                                address = obj.optString("address"),
+                                phone = obj.optString("phone")
+                            )
                         )
-                        contacts.add(contact)
                     }
+
+                    kotlinx.coroutines.withContext(Dispatchers.Main) {
+                        contacts.clear()
+                        contacts.addAll(tempList)
+                    }
+                } else {
+                    println("⚠️ Error HTTP: ${conn.responseCode}")
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
             }
         }
     }
+
 }

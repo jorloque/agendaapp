@@ -16,6 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.lopez_jorge.agendasapp.navigation.Navmanager
 import com.lopez_jorge.agendasapp.ui.theme.AgendasappTheme
+import com.lopez_jorge.agendasapp.viewModels.ContactsViewModel
 import com.lopez_jorge.agendasapp.viewModels.LoginViewModel
 import com.lopez_jorge.agendasapp.viewModels.NotasViewModel
 import com.lopez_jorge.agendasapp.viewModels.RegisterViewModel
@@ -26,7 +27,7 @@ class MainActivity : ComponentActivity() {
     val loginVM: LoginViewModel by viewModels()
     val notasVM: NotasViewModel by viewModels()
     val registerVM: RegisterViewModel by viewModels()
-
+    val contactsVM : ContactsViewModel by viewModels ()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,7 +35,7 @@ class MainActivity : ComponentActivity() {
             AgendasappTheme {
                 Surface (modifier = Modifier.fillMaxSize()) {
                     //LoginView()
-                    Navmanager(loginVM, registerVM, notasVM)
+                    Navmanager(loginVM, registerVM, notasVM, contactsVM)
                 }
             }
         }

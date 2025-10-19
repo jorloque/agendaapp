@@ -77,7 +77,7 @@ fun HomeView(navController: NavController, notesVM: NotasViewModel) {
         //Boton para ver contactos
         Button(
             onClick = {
-                navController.navigate("AddContact")
+                navController.navigate("ListContact")
             },
             modifier = Modifier
                 .fillMaxWidth()

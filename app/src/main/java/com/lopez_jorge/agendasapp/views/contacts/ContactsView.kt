@@ -9,18 +9,17 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
 import com.lopez_jorge.agendasapp.viewModels.ContactsViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ViewContactsView(
-    viewModel: ContactsViewModel = viewModel(),
+fun ContactsView(navController: NavController, contactVM: ContactsViewModel,
     onBack: () -> Unit = {}
 ) {
     // Al entrar a la vista, obtenemos los contactos
     LaunchedEffect(Unit) {
-        viewModel.getContacts()
+        contactVM.getContacts()
     }
 
     Scaffold(
@@ -43,7 +42,7 @@ fun ViewContactsView(
                 .padding(paddingValues)
                 .fillMaxSize()
         ) {
-            items(viewModel.contacts) { contact ->
+            items(contactVM.contacts) { contact ->
                 Card(
                     modifier = Modifier
                         .fillMaxWidth()

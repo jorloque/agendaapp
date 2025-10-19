@@ -31,14 +31,15 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import android.widget.Toast
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
 import com.lopez_jorge.agendasapp.R
 import com.lopez_jorge.agendasapp.models.Contact
 import com.lopez_jorge.agendasapp.viewModels.ContactsViewModel
+import com.lopez_jorge.agendasapp.viewModels.LoginViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AddContactsView(
-    viewModel: ContactsViewModel = viewModel(),
+fun AddContactsView(navController: NavController, contactVM: ContactsViewModel,
     onBack: () -> Unit = {},
     onViewContacts: () -> Unit = {}
 ) {
@@ -143,7 +144,7 @@ fun AddContactsView(
                     )
 
                     // 👉 Aquí llamamos al ViewModel
-                    viewModel.saveContact(contact) { success ->
+                    contactVM.saveContact(contact) { success ->
                         // Como saveContact se ejecuta en un hilo en background,
                         // volvemos al hilo principal con runOnUiThread (usando context de Compose)
                         android.os.Handler(android.os.Looper.getMainLooper()).post {

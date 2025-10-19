@@ -13,6 +13,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.lopez_jorge.agendasapp.viewModels.ContactsViewModel
+import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.Edit
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -78,23 +81,37 @@ fun ContactsView(
                                 elevation = CardDefaults.cardElevation(4.dp)
                             ) {
                                 Column(modifier = Modifier.padding(16.dp)) {
-                                    Text(
-                                        text = "👤 ${contact.name}",
-                                        style = MaterialTheme.typography.titleMedium
-                                    )
-                                    TextButton(
-                                        onClick = {
-                                            contactVM.editingContact.value = contact   // 👈 guardamos el seleccionado
-                                            navController.navigate("EditContact")      // 👈 navegamos
+                                    Row(
+                                        modifier = Modifier.fillMaxWidth(),
+                                        horizontalArrangement = Arrangement.SpaceBetween
+                                    ) {
+                                        Text(
+                                            text = "👤 ${contact.name}",
+                                            style = MaterialTheme.typography.titleMedium
+                                        )
+
+                                        Row {
+                                            IconButton(onClick = {
+                                                contact.id?.let { idSeguro ->
+                                                    contactVM.deleteContact(idSeguro) { success ->
+                                                        if (success) contactVM.getContacts()
+                                                    }
+                                                }
+                                            }) {
+                                                Icon(
+                                                    imageVector = Icons.Default.Close,
+                                                    contentDescription = "Eliminar contacto"
+                                                )
+                                            }
                                         }
-                                    ) { Text("Editar") }
+                                    }
+
                                     Text(text = "✉️ ${contact.email}")
-                                    if (contact.address.isNotBlank())
-                                        Text(text = "🏡 ${contact.address}")
-                                    if (contact.phone.isNotBlank())
-                                        Text(text = "📞 ${contact.phone}")
+                                    if (contact.address.isNotBlank()) Text(text = "🏡 ${contact.address}")
+                                    if (contact.phone.isNotBlank()) Text(text = "📞 ${contact.phone}")
                                 }
                             }
+
                         }
                     }
                 }

@@ -23,7 +23,7 @@ class ContactsViewModel : ViewModel() {
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 isLoading.value = true //empezamos la carga
-                val url = URL("http://54.236.23.141/addContact.php")
+                val url = URL("http://3.85.193.214/addContact.php")
                 val conn = url.openConnection() as HttpURLConnection
                 conn.requestMethod = "POST"
                 conn.doOutput = true
@@ -60,7 +60,7 @@ class ContactsViewModel : ViewModel() {
     fun getContacts() {
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                val url = URL("http://54.236.23.141/getContacts.php")
+                val url = URL("http://3.85.193.214/getContacts.php")
                 val conn = url.openConnection() as HttpURLConnection
                 conn.requestMethod = "GET"
                 conn.connectTimeout = 15000
@@ -117,6 +117,33 @@ class ContactsViewModel : ViewModel() {
                             "&address=${java.net.URLEncoder.encode(contact.address, "UTF-8")}" +
                             "&phone=${java.net.URLEncoder.encode(contact.phone, "UTF-8")}"
 
+                conn.outputStream.use { it.write(postData.toByteArray()) }
+
+                val ok = if (conn.responseCode == HttpURLConnection.HTTP_OK) {
+                    val response = conn.inputStream.bufferedReader().readText()
+                    response.contains("\"success\":true")
+                } else false
+
+                withContext(Dispatchers.Main) { onResult(ok) }
+            } catch (e: Exception) {
+                e.printStackTrace()
+                withContext(Dispatchers.Main) { onResult(false) }
+            }
+        }
+    }
+
+    fun deleteContact(id: Int, onResult: (Boolean) -> Unit) {
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                val url = URL("http://3.85.193.214/deleteContact.php")
+                val conn = url.openConnection() as HttpURLConnection
+                conn.requestMethod = "POST"
+                conn.doOutput = true
+                conn.connectTimeout = 15000
+                conn.readTimeout = 15000
+                conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded")
+
+                val postData = "id=$id"
                 conn.outputStream.use { it.write(postData.toByteArray()) }
 
                 val ok = if (conn.responseCode == HttpURLConnection.HTTP_OK) {

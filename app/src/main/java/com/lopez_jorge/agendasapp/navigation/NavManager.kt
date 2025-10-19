@@ -13,6 +13,7 @@ import com.lopez_jorge.agendasapp.viewModels.NotasViewModel
 import com.lopez_jorge.agendasapp.viewModels.RegisterViewModel
 import com.lopez_jorge.agendasapp.views.contacts.AddContactsView
 import com.lopez_jorge.agendasapp.views.contacts.ContactsView
+import com.lopez_jorge.agendasapp.views.contacts.EditContactView
 import com.lopez_jorge.agendasapp.views.login.LoginView
 import com.lopez_jorge.agendasapp.views.notas.HomeView
 import com.lopez_jorge.agendasapp.views.register.RegisterView
@@ -61,6 +62,15 @@ fun Navmanager(
                 onBack = { navController.popBackStack() }
             )
         }
+
+        composable("EditContact") {
+            EditContactView(
+                navController = navController,
+                contactsVM = contactsVM,
+                onBack = { navController.popBackStack() }
+            )
+        }
+
     }
 
 

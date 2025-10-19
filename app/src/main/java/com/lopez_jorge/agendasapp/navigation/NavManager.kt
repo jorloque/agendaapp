@@ -10,6 +10,8 @@ import androidx.navigation.compose.rememberNavController
 import com.lopez_jorge.agendasapp.viewModels.LoginViewModel
 import com.lopez_jorge.agendasapp.viewModels.NotasViewModel
 import com.lopez_jorge.agendasapp.viewModels.RegisterViewModel
+import com.lopez_jorge.agendasapp.views.contacts.AddContactsView
+import com.lopez_jorge.agendasapp.views.contacts.ViewContactsView
 import com.lopez_jorge.agendasapp.views.login.LoginView
 import com.lopez_jorge.agendasapp.views.notas.HomeView
 import com.lopez_jorge.agendasapp.views.register.RegisterView
@@ -25,7 +27,7 @@ fun Navmanager(
     val context = LocalContext.current
     val sessionManager = remember { com.lopez_jorge.agendasapp.utils.SessionManager(context) }
 
-    val startDestination = if (sessionManager.isLoggedIn()) "Home" else "Login"
+    val startDestination = if (sessionManager.isLoggedIn()) "Home" else "AddContact"
 
 
     NavHost(navController = navController, startDestination = startDestination){
@@ -39,6 +41,20 @@ fun Navmanager(
         //se modifica esta ruta
         composable ("Home"){
             HomeView(navController,notesVM)
+        }
+
+        composable("AddContact") {
+            AddContactsView(
+                // Pasamos lambda para navegar a la lista de contactos
+                onViewContacts = { navController.navigate("ListContact") }
+            )
+        }
+
+        composable("ListContact") {
+            ViewContactsView(
+                // Botón Back regresa a la pantalla anterior
+                onBack = { navController.popBackStack() }
+            )
         }
     }
 
